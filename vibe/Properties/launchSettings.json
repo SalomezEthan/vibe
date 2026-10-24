@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "vibe (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "vibe (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

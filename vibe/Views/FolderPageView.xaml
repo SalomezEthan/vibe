@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="vibe.Views.FolderPageView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:vibe.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vms="using:vibe.ViewModels"
+    xmlns:converters="using:vibe.Converters"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <converters:BootToVisibility x:Key="BoolToVisibility" />
+        <converters:TimeSpanToRoundedTimeSpan x:Key="RoundTimeSpan" />
+    </Page.Resources>
+
+    <Grid RowSpacing="24">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <TextBlock
+            Text="{x:Bind viewModel.Name}"
+            FontSize="40"
+            FontWeight="Bold"
+            Margin="0 0 0 24" />
+
+        <ListView
+            x:Name="MusicListView"
+            Grid.Row="1"
+            IsItemClickEnabled="True"
+            SelectionMode="None"
+            ItemsSource="{x:Bind viewModel.Musics}"
+            ItemClick="MusicListView_ItemClick">
+
+            <ListView.Header>
+                <Grid 
+                    Padding="16 12"
+                    ColumnSpacing="16">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <FontIcon 
+                        Glyph="&#xE7F6;"
+                        Grid.Column="0"
+                        FontSize="12"
+                        HorizontalAlignment="Center" />
+
+                    <TextBlock
+                        Text="Titre"
+                        Grid.Column="1" />
+
+                    <TextBlock
+                        Text="Artiste"
+                        Grid.Column="2" />
+
+                    <TextBlock
+                        Text="Durée"
+                        Grid.Column="3" />
+                </Grid>
+            </ListView.Header>
+
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="vms:MusicViewModel">
+                    <Grid ColumnSpacing="16">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <Ellipse
+                            Grid.Column="0"
+                            Fill="Beige"
+                            Height="10"
+                            Width="10"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Visibility="{x:Bind IsPlaying, Mode=OneWay, Converter={StaticResource BoolToVisibility}}"/>
+
+                        <TextBlock
+                            Text="{x:Bind Title}"
+                            Grid.Column="1" />
+
+                        <TextBlock
+                            Text="{x:Bind Artist}"
+                            Grid.Column="2" />
+
+                        <TextBlock
+                            Text="{x:Bind Duration, Converter={StaticResource RoundTimeSpan}}"
+                            Grid.Column="3" />
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</Page>
